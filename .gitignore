@@ -1,0 +1,38 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Python environments, caches, and test artifacts
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Frontend dependencies and generated files
+node_modules/
+dist/
+.npm-cache/
+.tmp/
+
+# Local SQLite data and migration backups
+Backend/database/*.db
+Backend/database/*.db-*
+Backend/database/*.db.bak.*
+Backend/database/*.sqlite*
+
+# Student data and generated biometric templates
+/student_images/
+/database/embeddings.npz
+/attendance_reports/
+
+# Logs and editor settings
+*.log
+.vscode/
+.idea/
