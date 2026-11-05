@@ -32,6 +32,7 @@ import StatCard from "../components/ui/StatCard";
 import StatusBadge from "../components/ui/StatusBadge";
 import LoadingCards from "../components/ui/LoadingCards";
 import useDemoLoading from "../hooks/useDemoLoading";
+import LiveOverview from "../components/camera/LiveOverview";
 const weekly = [
   { day: "Mon", rate: 86 },
   { day: "Tue", rate: 91 },
@@ -374,6 +375,7 @@ export default function Dashboard() {
           ))}
         </div>
       </section>
+      <LiveOverview />
     </div>
   );
 }

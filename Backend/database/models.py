@@ -89,3 +89,14 @@ class BiometricTemplate(Base):
     consent_at: Mapped[str] = mapped_column(String(32), nullable=False)
     expires_at: Mapped[str] = mapped_column(String(32), nullable=False)
     captured_count: Mapped[int] = mapped_column(Integer, nullable=False)
+
+
+class CameraDevice(Base):
+    __tablename__ = "camera_devices"
+    id: Mapped[str] = mapped_column(String(30), primary_key=True)
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    room: Mapped[str | None] = mapped_column(String(80))
+    secret_hash: Mapped[str] = mapped_column(String(64), nullable=False)
+    enabled: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    session_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("attendance_sessions.id", ondelete="SET NULL"))
+    created_at: Mapped[str] = mapped_column(String(32), nullable=False)

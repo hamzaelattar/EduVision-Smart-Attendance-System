@@ -8,7 +8,7 @@ from uuid import uuid4
 
 from config import DATABASE_PATH
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 
 def _backup(path: Path) -> Path:
@@ -62,7 +62,9 @@ def migrate_database(path: Path = DATABASE_PATH) -> Path | None:
             conn.execute("CREATE INDEX IF NOT EXISTS ix_students_class_id ON students(class_id)")
             conn.execute("CREATE INDEX IF NOT EXISTS ix_sessions_date ON attendance_sessions(date)")
             conn.execute("CREATE INDEX IF NOT EXISTS ix_attendance_session ON attendance_records(session_id)")
-            conn.execute("PRAGMA user_version=1")
+            conn.execute("CREATE TABLE IF NOT EXISTS camera_devices (id VARCHAR(30) PRIMARY KEY, name VARCHAR(120) NOT NULL, room VARCHAR(80), secret_hash VARCHAR(64) NOT NULL, enabled INTEGER NOT NULL DEFAULT 1, session_id VARCHAR(36) REFERENCES attendance_sessions(id) ON DELETE SET NULL, created_at VARCHAR(32) NOT NULL)")
+            conn.execute("CREATE INDEX IF NOT EXISTS ix_camera_session ON camera_devices(session_id)")
+            conn.execute("PRAGMA user_version=2")
             conn.commit()
         except Exception:
             conn.rollback()

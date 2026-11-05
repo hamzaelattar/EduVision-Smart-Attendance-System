@@ -1,6 +1,6 @@
 # EduVision API
 
-This backend extends the existing FastAPI and SQLite project. It preserves the legacy `students(id, name)` columns and adds explicit, backed-up schema migrations. The React frontend remains in Demo Mode until you connect its service layer.
+This backend extends the existing FastAPI and SQLite project. It preserves the legacy `students(id, name)` columns and adds explicit, backed-up schema migrations. The React `/iot` console uses the live API; the older UI pages remain local demos. See the root `README.md` for the end-to-end setup.
 
 ## Environment and startup
 
@@ -87,7 +87,7 @@ Example student creation:
 {"id":"STU-1021","firstName":"Ada","lastName":"Lovelace","email":"ada@example.edu","classId":null}
 ```
 
-The earlier `{"id":"STU-1021","name":"Ada Lovelace"}` format still works. A new session creates `Unverified` attendance records for enrolled students. Recognition candidates **never** change those statuses. The teacher must update each record with `confirmed: true`; finalization also requires `confirmed: true` and refuses unresolved records. `Excused` is excluded from the attendance-rate denominator.
+The earlier `{"id":"STU-1021","name":"Ada Lovelace"}` format still works. A new session creates `Unverified` attendance records for enrolled students. A WebRTC camera assigned to a draft session marks a student `Present` after three consecutive `Candidate Match` results, sampled at most once per second. The backend rechecks camera assignment, session state, class membership, active consent and template expiry before writing; only `Unverified` records change. Uncertain matches and the separate recognition WebSocket do not change attendance. Operators can correct decisions before finalization. Finalization still requires `confirmed: true` and refuses unresolved records. `Excused` is excluded from the attendance-rate denominator.
 
 ## Live recognition WebSocket
 
@@ -111,4 +111,4 @@ The OPENCV worker reads `yolov8n-face.pt`, InsightFace `buffalo_l`, and the exis
 python -m unittest discover -s tests -v
 ```
 
-The automated tests use temporary SQLite files and a local Uvicorn process. They cover migration preservation and backup, authentication, CRUD, teacher scoping, manual attendance finalization, finalized-only reporting, encrypted template retention, export files, and WebSocket authentication/validation. No test writes the existing project database or CV assets.
+The automated tests use temporary SQLite files and a local Uvicorn process. They cover migration preservation and backup, authentication, CRUD, teacher scoping, automatic and manual attendance, finalized-only reporting, encrypted template retention, export files, and WebSocket authentication/validation. No test writes the existing project database or CV assets.

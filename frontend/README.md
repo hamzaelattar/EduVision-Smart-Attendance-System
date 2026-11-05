@@ -1,6 +1,6 @@
 # EduVision frontend
 
-A React demo for smart student attendance. It uses **local sample data only** and runs without FastAPI, a webcam, or an AI model. The existing Python project, models, images, database, and Conda environment are untouched.
+A React interface for smart student attendance. The historical pages use local sample data. `/iot` connects to FastAPI for live cameras, enrollment, sessions, automatic presence after repeated strong face matches, manual corrections, and reports; `/iot-camera` publishes a phone or PC webcam. See the root `README.md` for setup and security requirements.
 
 ## Run locally
 
@@ -44,9 +44,9 @@ src/
   styles/       Tailwind entry and shared design styles
 ```
 
-## Connecting FastAPI later
+## Historical demo pages
 
-Copy `.env.example` to `.env.local` and set `VITE_API_BASE_URL` to the backend origin (default `http://127.0.0.1:8000`). The files in `src/services/` define the future Axios clients. Replace the local state actions in `src/context/AppContext.jsx` with calls through those clients, then map response data into the current UI models. Keep camera candidate events separate from attendance decisions. The future recognition socket URL is derived in `src/services/recognitionApi.js` as `ws://127.0.0.1:8000/ws/recognition` by default. No socket opens in Demo Mode.
+The older pages still use local state in `src/context/AppContext.jsx`. The live `/iot` page uses the FastAPI routes through `src/services/liveApi.js` and polls attendance so automatic decisions appear without refreshing. The separate recognition WebSocket in `src/services/recognitionApi.js` emits candidates only; Demo Mode does not open it.
 
 Expected routes:
 

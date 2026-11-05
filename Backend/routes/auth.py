@@ -59,3 +59,8 @@ def create_user(data: UserCreate, db: Session = Depends(get_db), _admin: User = 
         raise HTTPException(status_code=409, detail="Username already exists")
     db.refresh(user)
     return user
+
+
+@router.get("/users", response_model=list[UserResponse])
+def list_users(db: Session = Depends(get_db), _admin: User = Depends(require_roles("admin"))):
+    return db.scalars(select(User).order_by(User.username).limit(500)).all()

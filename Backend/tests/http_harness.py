@@ -60,11 +60,13 @@ class ApiServer:
             self.process.wait(timeout=5)
         self.temp.cleanup()
 
-    def request(self, method, path, body=None, auth=True, token=None):
+    def request(self, method, path, body=None, auth=True, token=None, extra_headers=None):
         data = json.dumps(body).encode() if body is not None else None
         headers = {"Content-Type": "application/json"}
         if auth and hasattr(self, "token"):
             headers["Authorization"] = f"Bearer {token or self.token}"
+        if extra_headers:
+            headers.update(extra_headers)
         req = urllib.request.Request(self.base_url + path, data=data, headers=headers, method=method)
         try:
             response = urllib.request.urlopen(req, timeout=10)

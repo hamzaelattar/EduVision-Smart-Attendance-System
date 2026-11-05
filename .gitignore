@@ -12,27 +12,53 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.tox/
+.hypothesis/
 .coverage
 htmlcov/
 
 # Frontend dependencies and generated files
 node_modules/
 dist/
+coverage/
+.vite/
+*.tsbuildinfo
 .npm-cache/
 .tmp/
 
 # Local SQLite data and migration backups
-Backend/database/*.db
-Backend/database/*.db-*
-Backend/database/*.db.bak.*
-Backend/database/*.sqlite*
+*.db
+*.db-*
+*.db.bak.*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
 
 # Student data and generated biometric templates
 /student_images/
-/database/embeddings.npz
+/database/*.npz
+/database/*.npy
 /attendance_reports/
 
-# Logs and editor settings
+# Logs and local editor/system files
 *.log
+*.log.*
 .vscode/
 .idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Private keys and local TLS certificates
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+
+# Downloaded model weights (the bundled YOLO model is intentionally tracked)
+*.pt
+!/yolov8n-face.pt
+*.onnx
+*.engine
